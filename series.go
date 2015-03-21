@@ -1,35 +1,46 @@
 package thetvdb
 
+
 type Series struct {
-  ID            uint64   'xml:"id"'
-  Actors        string   'xml:"Actors"'
-  AirsDayOfWeek string   'xml:"Airs_DayOfWeek"'
-  AirsTime      string   'xml:"Airs_Time"'
-  ContentRating string   'xml:"ContentRating"'
-  FirstAired    string   'xml:"FirstAired"'
-  Genre         string   'xml:"Genre"'
-  ImdbID        string   'xml:"IMDB_ID"'
-  Language      string   'xml:"Language"'
-  Network       string   'xml:"Network"'
-  NetworkID     string   'xml:"NetworkID"'
-  Overview      string   'xml:"Overview"'
-  Rating        string   'xml:"Rating"'
-  RatingCount   string   'xml:"RatingCount"'
-  Runtime       string   'xml:"Runtime"'
-  SeriesID      string   'xml:"SeriesID"'
-  SeriesName    string   'xml:"SeriesName"'
-  Status        string   'xml:"Status"'
-  Added         string   'xml:"added"'
-  AddedBy       string   'xml:"addedBy"'
-  Banner        string   'xml:"banner"'
-  Fanart        string   'xml:"fanart"'
-  LastUpdated   string   'xml:"lastupdated"'
-  Poster        string   'xml:"poster"'
-  Zap2ItID      string   'xml:"zap2it_id"'
-  Seasons       map[uint64][]*Episode
+  ID            uint64   `xml:"id"`
+  SeriesID      string   `xml:"seriesid"`
+  Banner        string   `xml:"banner"`
+  Zap2ItID      string   `xml:"zap2it_id"`
+  FirstAired    string   `xml:"FirstAired"`
+  ImdbID        string   `xml:"IMDB_ID"`
+  Language      string   `xml:"language"`
+  Network       string   `xml:"Network"`
+  Overview      string   `xml:"Overview"`
+  SeriesName    string   `xml:"SeriesName"`
+  AliasNames    string   `xml:"AliasNames"`
 }
 
+type SeriesList struct {
+  Series []*Series `xml:"Series"`
+}
+type PipeList []string
 
-func (t *TheTVDB) GetSeriesById(seriesId int) (*Series, error) {}
+func (t *TheTVDB) GetSeriesByRemoteID(seriesid string) (*Series) {
 
-func (t *TheTVDB) GetSeries(seriesName string) ([]Series, error) {}
+  params := make(map[string]string)
+  params["imdbid"] = seriesid
+
+  url, _ := t.GetResourceURL("GetSeriesByRemoteID", params)
+  response := t.Get(url)
+
+  var list SeriesList
+  UnmarshalXML(response, &list)
+  return list.Series[0]
+}
+
+func (t *TheTVDB) GetSeries(seriesName string) (SeriesList) {
+  params := make(map[string]string)
+  params["seriesname"] = seriesName
+
+  url, _ := t.GetResourceURL("GetSeries", params)
+  response := t.Get(url)
+
+  var list SeriesList
+  UnmarshalXML(response, &list)
+  return list
+}

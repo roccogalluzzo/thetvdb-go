@@ -8,7 +8,7 @@ type Episode struct {
   DvdDiscID             string   `xml:"DVD_discid"`
   DvdEpisodeNumber      string   `xml:"DVD_episodenumber"`
   DvdSeason             string   `xml:"DVD_season"`
-  Director              PipeList `xml:"Director"`
+  Director              string   `xml:"Director"`
   EpImgFlag             string   `xml:"EpImgFlag"`
   EpisodeName           string   `xml:"EpisodeName"`
   EpisodeNumber         uint64   `xml:"EpisodeNumber"`
@@ -21,7 +21,7 @@ type Episode struct {
   Rating                string   `xml:"Rating"`
   RatingCount           string   `xml:"RatingCount"`
   SeasonNumber          uint64   `xml:"SeasonNumber"`
-  Writer                PipeList `xml:"Writer"`
+  Writer                string   `xml:"Writer"`
   AbsoluteNumber        string   `xml:"absolute_number"`
   Filename              string   `xml:"filename"`
   LastUpdated           string   `xml:"lastupdated"`
@@ -32,4 +32,4 @@ type Episode struct {
   ThumbWidth            string   `xml:"thumb_width"`
 }
 
-func (t *TheTVDB) GetEpisodeByAirDate(seriesId int, airdate) (*Episode[], error) {}
+//func (t *TheTVDB) GetEpisodeByAirDate(seriesId int, airdate) (*Episode[], error) {}
