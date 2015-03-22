@@ -2,7 +2,7 @@ package thetvdb
 
 import "testing"
 
-//import "fmt"
+import "fmt"
 
 func Test_GetResourceURL(t *testing.T) {
 	tvdb := &TheTVDB{ApiKey: "A76837DFE272D3F8", Language: "en"}
@@ -28,7 +28,6 @@ func Test_GetSeriesByRemoteID(t *testing.T) {
 func Test_GetSeries(t *testing.T) {
 	tvdb := &TheTVDB{ApiKey: "A76837DFE272D3F8", Language: "en"}
 	series := tvdb.GetSeries("Breaking Bad").Series[0]
-	//fmt.Printf("%+v\n", series)
 
 	if series.SeriesName != "Breaking Bad" {
 		t.Error(".GetSeriesByRemoteID did not work as expected.")
@@ -49,6 +48,16 @@ func Test_GetFullSeriesById(t *testing.T) {
 	series := tvdb.GetFullSeriesById("81189")
 
 	if series.SeriesName != "Breaking Bad" {
+		t.Error(".GetSeriesByRemoteID did not work as expected.")
+	}
+}
+
+func Test_GetEpisodeById(t *testing.T) {
+	tvdb := &TheTVDB{ApiKey: "A76837DFE272D3F8", Language: "en"}
+	episode := tvdb.GetEpisodeById("438919")
+	fmt.Printf("%+v\n", episode)
+
+	if episode.EpisodeName != "Better Call Saul" {
 		t.Error(".GetSeriesByRemoteID did not work as expected.")
 	}
 }

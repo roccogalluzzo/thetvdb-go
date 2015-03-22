@@ -32,4 +32,14 @@ type EpisodeList struct {
 	Episodes []*Episode `xml:"Episode"`
 }
 
-//func (t *TheTVDB) GetEpisodeByAirDate(seriesId int, airdate) (*Episode[], error) {}
+func (t *TheTVDB) GetEpisodeById(episode_id string) *Episode {
+
+	params := make(map[string]string)
+	params["episode_id"] = episode_id
+
+	url, _ := t.GetResourceURL("GetEpisodeById", params)
+	response := t.Get(url)
+	var list EpisodeList
+	UnmarshalXML(response, &list)
+	return list.Episodes[0]
+}

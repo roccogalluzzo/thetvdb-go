@@ -42,7 +42,7 @@ const (
 	GetFullSeriesByIdPath = "%v/series/%v/all/%v.xml"
 
 	// GetEpisodeById
-	// apikey, series_id, season_id, episode_id, language
+	// apikey, episode_id, language
 	GetEpisodeByIdPath = "%v/episodes/%v/%v.xml"
 )
 
@@ -61,6 +61,8 @@ func (t TheTVDB) GetResourceURL(resource string, params map[string]string) (stri
 		Url.Path += fmt.Sprintf(GetBaseSeriesByIdPath, t.ApiKey, params["series_id"], t.Language)
 	case "GetFullSeriesById":
 		Url.Path += fmt.Sprintf(GetFullSeriesByIdPath, t.ApiKey, params["series_id"], t.Language)
+	case "GetEpisodeById":
+		Url.Path += fmt.Sprintf(GetEpisodeByIdPath, t.ApiKey, params["episode_id"], t.Language)
 	case "GetSeriesByRemoteID":
 		Url.Path += GetSeriesByRemoteIDPath
 	case "GetEpisodeByAirDate":
