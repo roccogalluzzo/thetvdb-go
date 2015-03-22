@@ -5,6 +5,7 @@ import (
 "io/ioutil"
 "net/http"
 "net/url"
+"fmt"
 )
 
 type TheTVDB struct {
@@ -33,6 +34,15 @@ const (
 // params airdate
 // params language
   GetEpisodeByAirDatePath = "GetSeriesByRemoteID.php"
+
+// GetSeriesById
+// apikey, series_id, language
+  GetBaseSeriesByIdPath = "%v/series/%v/%v.xml"
+  GetFullSeriesByIdPath = "%v/series/%v/all/%v.xml"
+
+// GetEpisodeById
+  // apikey, series_id, season_id, episode_id, language
+  GetEpisodeByIdPath = "%v/episodes/%v/%v.xml"
 )
 var httpClient = &http.Client{Timeout: 60}
 
@@ -45,6 +55,10 @@ func (t TheTVDB) GetResourceURL(resource string, params map[string]string) (stri
   switch resource {
   case "GetSeries":
     Url.Path += GetSeriesPath
+  case "GetBaseSeriesById":
+    Url.Path += fmt.Sprintf(GetBaseSeriesByIdPath, t.ApiKey, params["series_id"], t.Language)
+  case "GetFullSeriesById":
+    Url.Path += fmt.Sprintf(GetFullSeriesByIdPath, t.ApiKey, params["series_id"], t.Language)
   case "GetSeriesByRemoteID":
     Url.Path += GetSeriesByRemoteIDPath
   case "GetEpisodeByAirDate":
@@ -52,13 +66,16 @@ func (t TheTVDB) GetResourceURL(resource string, params map[string]string) (stri
     parameters.Add("apikey", t.ApiKey)
   }
 
-  parameters.Add("language", t.Language)
-  for k, v := range params {
+  if (resource == "GetEpisodeByAirDate") || (resource == "GetSeriesByRemoteID")  || (resource == "GetSeries") {
+   parameters.Add("language", t.Language)
+   for k, v := range params {
     parameters.Add(k, v)
   }
-
   Url.RawQuery = parameters.Encode()
-  return Url.String(), error
+}
+
+
+return Url.String(), error
 }
 
 func (t TheTVDB) Get(url string) ([]byte) {

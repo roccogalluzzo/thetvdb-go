@@ -15,11 +15,10 @@ type Episode struct {
   FirstAired            string   `xml:"FirstAired"`
   GuestStars            string   `xml:"GuestStars"`
   ImdbID                string   `xml:"IMDB_ID"`
-  Language              string   `xml:"Language"`
+  Language              string   `xml:"language"`
   Overview              string   `xml:"Overview"`
   ProductionCode        string   `xml:"ProductionCode"`
   Rating                string   `xml:"Rating"`
-  RatingCount           string   `xml:"RatingCount"`
   SeasonNumber          uint64   `xml:"SeasonNumber"`
   Writer                string   `xml:"Writer"`
   AbsoluteNumber        string   `xml:"absolute_number"`
@@ -27,9 +26,10 @@ type Episode struct {
   LastUpdated           string   `xml:"lastupdated"`
   SeasonID              uint64   `xml:"seasonid"`
   SeriesID              uint64   `xml:"seriesid"`
-  ThumbAdded            string   `xml:"thumb_added"`
-  ThumbHeight           string   `xml:"thumb_height"`
-  ThumbWidth            string   `xml:"thumb_width"`
+}
+
+type EpisodeList struct {
+  Episodes []*Episode `xml:"Episode"`
 }
 
 //func (t *TheTVDB) GetEpisodeByAirDate(seriesId int, airdate) (*Episode[], error) {}
